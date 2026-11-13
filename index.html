@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multi-Calendar Converter</title>
+    <style>
+        body { font-family: system-ui, -apple-system, sans-serif; background: #f4f4f9; padding: 2rem; color: #333; }
+        .container { max-width: 600px; margin: auto; background: white; padding: 2rem; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+        h1 { color: #2c3e50; text-align: center; margin-top: 0; }
+        .form-group { display: flex; gap: 10px; margin-bottom: 1.5rem; flex-wrap: wrap; }
+        input, select, button { padding: 10px; border: 1px solid #ccc; border-radius: 4px; font-size: 16px; }
+        input[type="number"] { width: 80px; }
+        button { background: #3498db; color: white; border: none; cursor: pointer; flex-grow: 1; font-weight: bold; transition: background 0.2s; }
+        button:hover { background: #2980b9; }
+        #results { margin-top: 2rem; display: none; border-top: 2px solid #eee; padding-top: 1rem; }
+        .result-row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #eee; }
+        .result-label { font-weight: 600; color: #555; }
+        .result-value { color: #2c3e50; font-family: monospace; font-size: 15px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📅 Multi-Calendar</h1>
+        
+        <div class="form-group">
+            <select id="calendar">
+                <option value="gregorian">Gregorian</option>
+                <option value="hijri">Hijri</option>
+                <option value="bengali">Bengali (BD)</option>
+                <option value="coptic">Coptic</option>
+                <option value="julian">Julian</option>
+                <option value="egyptian">Ancient Egyptian</option>
+            </select>
+            <input type="number" id="year" placeholder="YYYY" value="2024">
+            <input type="number" id="month" placeholder="MM" value="3" min="1" max="13">
+            <input type="number" id="day" placeholder="DD" value="11" min="1" max="31">
+        </div>
+        
+        <button onclick="convertDate()">Convert Date</button>
+
+        <div id="results">
+            <div class="result-row"><span class="result-label">JDN:</span> <span id="res-jdn" class="result-value"></span></div>
+            <div class="result-row"><span class="result-label">Gregorian:</span> <span id="res-gregorian" class="result-value"></span></div>
+            <div class="result-row"><span class="result-label">Bengali:</span> <span id="res-bengali" class="result-value"></span></div>
+            <div class="result-row"><span class="result-label">Hijri:</span> <span id="res-hijri" class="result-value"></span></div>
+            <div class="result-row"><span class="result-label">Julian:</span> <span id="res-julian" class="result-value"></span></div>
+            <div class="result-row"><span class="result-label">Coptic:</span> <span id="res-coptic" class="result-value"></span></div>
+            <div class="result-row"><span class="result-label">Egyptian:</span> <span id="res-egyptian" class="result-value"></span></div>
+        </div>
+    </div>
+
+    <script>
+        async function convertDate() {
+            const cal = document.getElementById('calendar').value;
+            const y = document.getElementById('year').value;
+            const m = document.getElementById('month').value;
+            const d = document.getElementById('day').value;
+
+            try {
+                const response = await fetch(`/api?calendar=${cal}&year=${y}&month=${m}&day=${d}`);
+                const data = await response.json();
+
+                if (data.error) {
+                    alert("Error: " + data.error);
+                    return;
+                }
+
+                // Update the UI with the results
+                document.getElementById('res-jdn').innerText = data.jdn;
+                document.getElementById('res-gregorian').innerText = data.gregorian;
+                document.getElementById('res-bengali').innerText = data.bengali;
+                document.getElementById('res-hijri').innerText = data.hijri;
+                document.getElementById('res-julian').innerText = data.julian;
+                document.getElementById('res-coptic').innerText = data.coptic;
+                document.getElementById('res-egyptian').innerText = data.egyptian;
+                
+                document.getElementById('results').style.display = 'block';
+            } catch (err) {
+                alert("Failed to connect to the server. Is python server.py running?");
+            }
+        }
+    </script>
+</body>
+</html>
