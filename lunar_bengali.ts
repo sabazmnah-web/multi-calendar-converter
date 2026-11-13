@@ -42,7 +42,7 @@ const hijriToJdn = (y: number, m: number, d: number) =>
   d + Math.ceil(29.5 * (m - 1)) + 354 * (y - 1) + Math.floor((3 + 11 * y) / 30) + 1948439;
 
 function bengaliToJdn(y: number, m: number, d: number): number {
-  const gregStart = y + 593;               // Bengali year Y starts 14 April Y+593
+  const gregStart = y + 593; 
   const falgun    = isGregLeap(gregStart + 1) ? 30 : 29;
   const days      = [31,31,31,31,31,31,30,30,30,30,falgun,30];
   let offset = 0;
@@ -67,6 +67,4 @@ if (arg.mode === "forward") {
             : calendar === "bengali" ? bengaliToJdn(year, month, day)
             : (() => { throw new Error(`Unknown lunar calendar: ${calendar}`); })();
   console.log(JSON.stringify({ jdn }));
-} else {
-  throw new Error(`Unknown mode: ${(arg as any).mode}`);
 }
