@@ -58,6 +58,4 @@ if (arg.mode === "forward") {
   const map = { julian: julianToJdn, coptic: copticToJdn, egyptian: egyptianToJdn };
   if (!map[calendar]) throw new Error(`Unknown solar calendar: ${calendar}`);
   console.log(JSON.stringify({ jdn: map[calendar](year, month, day) }));
-} else {
-  throw new Error(`Unknown mode: ${arg.mode}`);
 }
