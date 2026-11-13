@@ -7,13 +7,11 @@ NPX  = shutil.which("npx")  or "npx"
 SOLAR = {"julian", "coptic", "egyptian"}
 LUNAR = {"hijri",  "bengali"}
 
-
 def gregorian_to_jdn(y, m, d):
     a = (14 - m) // 12
     y += 4800 - a
     m += 12 * a - 3
     return d + (153 * m + 2) // 5 + 365 * y + y // 4 - y // 100 + y // 400 - 32045
-
 
 def jdn_to_gregorian(jdn):
     a = jdn + 32044
@@ -28,18 +26,15 @@ def jdn_to_gregorian(jdn):
         "year":  100 * b + d - 4800 + m // 10,
     }
 
-
 def call_node(payload):
     res = subprocess.run([NODE, "solar_calendars.js", json.dumps(payload)],
                          capture_output=True, text=True, check=True)
     return json.loads(res.stdout.strip())
 
-
 def call_tsx(payload):
     res = subprocess.run([NPX, "--yes", "tsx", "lunar_bengali.ts", json.dumps(payload)],
                          capture_output=True, text=True, check=True)
     return json.loads(res.stdout.strip())
-
 
 def resolve_jdn(args):
     if args.jdn is not None:
@@ -55,7 +50,6 @@ def resolve_jdn(args):
             return worker(payload)["jdn"]
     n = datetime.now()
     return gregorian_to_jdn(n.year, n.month, n.day)
-
 
 def main():
     p = argparse.ArgumentParser(description="Multi-calendar converter")
@@ -77,7 +71,6 @@ def main():
     print(f"Hijri (Tabular):  {lunar['hijri']}")
     print(f"Coptic:           {solar['coptic']}")
     print(f"Ancient Egyptian: {solar['egyptian']}")
-
 
 if __name__ == "__main__":
     main()
