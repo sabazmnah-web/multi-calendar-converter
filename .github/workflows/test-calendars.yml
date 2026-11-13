@@ -1,0 +1,26 @@
+name: Test Calendar Conversions
+
+on: [push, pull_request]
+
+jobs:
+  test-calendars:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Run calendar conversion test
+        shell: bash
+        run: |
+          python main.py --gregorian 2024 3 11
+          python main.py --hijri 1445 9 1
