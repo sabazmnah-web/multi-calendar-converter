@@ -1,17 +1,17 @@
-# 📅 Multi-Calendar Converter
+# Multi-Calendar Converter
 
 A polyglot, multi-calendar date conversion tool that translates Gregorian dates into 5 historical and cultural calendars (and vice versa). 
 
 This project uses a **1 + 3 architecture**, meaning one main Python controller coordinates three language workers to calculate exact Julian Day Numbers (JDN) and convert them across different calendar systems.
 
-## 🏗️ Architecture
+## Architecture
 
 *   **`main.py` (Python)**: The main entry point and CLI controller. It calculates the universal JDN and coordinates the worker scripts.
 *   **`solar_calendars.js` (JavaScript)**: Worker that converts the JDN into the Julian, Coptic, and Ancient Egyptian calendars.
 *   **`lunar_bengali.ts` (TypeScript)**: Worker that converts the date into the Hijri (Tabular Islamic) and Bengali (Revised 2019 Bangladesh rules) calendars.
 *   **`server.py` & `index.html`**: A lightweight Flask web server and UI for browser-based conversions.
 
-## ✨ Features
+## Features
 
 *   **Bi-directional Conversion**: Convert from Gregorian to any calendar, OR convert from any calendar back to Gregorian.
 *   **Astronomical Accuracy**: Uses the standard Julian Day Number (JDN) at noon as the universal baseline.
@@ -20,7 +20,7 @@ This project uses a **1 + 3 architecture**, meaning one main Python controller c
 *   **Ancient Egyptian**: Strict 365-day wandering year (no leap years), mapped to the Nabonassar Era.
 *   **CI/CD Pipeline**: Includes a GitHub Actions workflow to automatically test conversions on every push.
 
-## 🚀 How to Run (CLI)
+## How to Run (CLI)
 
 You must have **Python 3.11+** and **Node.js 18+** installed.
 
